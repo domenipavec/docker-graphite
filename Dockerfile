@@ -5,20 +5,20 @@ RUN apt-get -y update\
 
 RUN apt-get -y --force-yes install memcached \
  libcairo2 \
- libcairo2-dev
+ libcairo2-dev \
+ python-cairo \
+ python-rrdtool
 
 RUN pip install uwsgi \
- python-memcache \
- python-rrdtool \
+ python-memcached \
  mysqlclient \
- pycairo \
  django \
  django-tagging \
  pytz \
  https://github.com/graphite-project/ceres/tarball/master \
  whisper \
  carbon \
- graphite-web \
+ graphite-web
 
 # cleanup
 RUN apt-get clean\
