@@ -1,15 +1,26 @@
-FROM python:2
+FROM debian:jessie
+MAINTAINER Domen Ipavec <domen@ipavec.net>
 
-RUN apt-get -y update\
- && apt-get -y upgrade
+# apt update
+RUN apt-get -y update \
+ && apt-get -y upgrade \
 
-RUN apt-get -y --force-yes install memcached \
+# apt installs
+&& apt-get -y --force-yes install memcached \
  libcairo2 \
  libcairo2-dev \
+ libmysqlclient-dev \
+ build-essential \
+ python \
+ libpython2.7 \
+ python-dev \
+ python-pip \
  python-cairo \
- python-rrdtool
+ python-rrdtool \
+ supervisor \
 
-RUN pip install uwsgi \
+# pip installs
+&& pip install uwsgi \
  python-memcached \
  mysqlclient \
  django \
@@ -18,10 +29,22 @@ RUN pip install uwsgi \
  https://github.com/graphite-project/ceres/tarball/master \
  whisper \
  carbon \
- graphite-web
+ graphite-web \
+
+# deinstall unneeded stuff
+&& apt-get -y remove build-essential python-dev libcairo-dev libmysqlclient-dev python-pip \
+ && apt-get -y autoremove \
 
 # cleanup
-RUN apt-get clean\
+&& apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD ["/sbin/my_init"]
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY init.sh /usr/bin/init.sh
+
+RUN cp -r /opt/graphite/conf /opt/graphite/conf-example
+
+EXPOSE 8000
+
+CMD ["/usr/bin/init.sh"]
