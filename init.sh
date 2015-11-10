@@ -16,4 +16,10 @@ if [ ! -f /opt/graphite/conf/graphite.wsgi ]; then
     cp /opt/graphite/conf-example/graphite.wsgi.example /opt/graphite/conf/graphite.wsgi
 fi
 
+if [ ! -f /opt/graphite/conf/local_settings.py ]; then
+    cp /opt/graphite/webapp/graphite/local_settings.py.example /opt/graphite/conf/local_settings.py
+fi
+
+ln -s /opt/graphite/webapp/graphite/local_settings.py /opt/graphite/conf/local_settings.py
+
 /usr/bin/supervisord

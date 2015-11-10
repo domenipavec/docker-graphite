@@ -1,6 +1,7 @@
 FROM debian:jessie
 MAINTAINER Domen Ipavec <domen@ipavec.net>
 
+# do installs and cleanup in one step to save on space
 # apt update
 RUN apt-get -y update \
  && apt-get -y upgrade \
