@@ -11,6 +11,7 @@ RUN apt-get -y update \
  libcairo2 \
  libcairo2-dev \
  libmysqlclient-dev \
+ libmysqlclient18 \
  build-essential \
  python \
  libpython2.7 \
@@ -46,6 +47,7 @@ COPY init.sh /usr/bin/init.sh
 
 RUN cp -r /opt/graphite/conf /opt/graphite/conf-example
 
-EXPOSE 8000
+EXPOSE 80 2003
+VOLUME ["/opt/graphite/conf", "/opt/graphite/storage"]
 
 CMD ["/usr/bin/init.sh"]
