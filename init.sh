@@ -40,6 +40,9 @@ if [ ! -f /opt/graphite/webapp/graphite/local_settings.py ]; then
     ln -s /opt/graphite/conf/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
 fi
 
+mkdir -p /opt/graphite/storage/log/webapp
+mkdir -p /opt/graphite/storage/whisper
+
 python /opt/graphite/webapp/graphite/manage.py migrate auth
 python /opt/graphite/webapp/graphite/manage.py migrate
 
